@@ -4,6 +4,8 @@ import 'reflect-metadata';
 import{inject,injectable} from 'inversify';
 import {TYPES} from './TYPES'
 import{ILoggerServise}from './logger/logger.service.interface'
+import {IUserController} from "./user/user.controller.interface";
+import {UserController} from "./user/user.controller";
 
 @injectable()
 export class App {
@@ -13,7 +15,7 @@ export class App {
     
     constructor(
         @inject(TYPES.LoggerService) private readonly loggerService:ILoggerServise ,
-        @inject(TYPES.UserController) private readonly userController: ,
+        @inject(TYPES.UserController) private readonly userController: UserController,
         @inject(TYPES.AuthController) private readonly authController: ,
 
         
@@ -27,7 +29,7 @@ export class App {
     useMiddleware():void{
 
     }
-    UseRouter():void{
+    useRouter():void{
         this.app.use('/', this.userController.router)
         this.app.use('/auth', this.authController.router)
     }
@@ -36,7 +38,7 @@ export class App {
     }
     public async init():Promise<void>{
         this.useMiddleware();
-        this.UseRouter();
+        this.useRouter();
         this.useExeptionFilters();
     }
 
