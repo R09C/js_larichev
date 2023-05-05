@@ -1,4 +1,4 @@
-import{IUserController}from './UserController.interface';
+import{IUserController}from './user.controller.interface';
 import {Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
 import {BaseController} from '../common/base.controller';

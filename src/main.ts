@@ -2,8 +2,8 @@ import {Container,ContainerModule,interfaces} from 'inversify';
 import {App} from './app';
 import {ILoggerServise} from './logger/logger.service.interface';
 import {LoggerService} from './logger/logger.service';
-import {UserController} from './user/UserController';
-import {IUserController} from './user/UserController.interface';
+import {UserController} from './user/user.controller';
+import {IUserController} from './user/user.controller.interface';
 import {TYPES} from './TYPES';
 export interface IBootsrapReturn{
     appContainer:Container;
