@@ -11,6 +11,7 @@ export abstract class BaseController{
 
     constructor(){
         this._router=Router();
+
     }
 
     get router():IRouter{
