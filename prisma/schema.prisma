@@ -9,3 +9,44 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  basket   Basket?
+  role     Role    @default(USER)
+  salt     Int
+}
+
+model Basket {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int     @unique
+  tiket     Tiket[]
+  passageid Int
+}
+
+model Passage {
+  id       Int      @id @default(autoincrement())
+  from     String
+  to       String
+  timefrom DateTime
+  timeto   DateTime
+  cout     Int
+  tiket    Tiket[]
+}
+
+model Tiket {
+  id        Int      @id @default(autoincrement())
+  price     Int
+  basket    Basket?  @relation(fields: [basketId], references: [id])
+  basketId  Int?
+  passage   Passage? @relation(fields: [passageId], references: [id])
+  passageId Int?
+}
+
+enum Role {
+  ADMIN
+  USER
+}

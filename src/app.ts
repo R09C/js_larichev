@@ -4,8 +4,9 @@ import 'reflect-metadata';
 import{inject,injectable} from 'inversify';
 import {TYPES} from './TYPES';
 import{ILoggerServise}from './logger/logger.service.interface';
-import{UserController}from './user/UserController'
-import{IExeptionFilter}from './erors/exeption.filter.interface'
+import{UserController}from './user/UserController';
+import{IExeptionFilter}from './erors/exeption.filter.interface';
+import { IMiddleware } from './common/Middleware.interface';
 
 @injectable()
 export class App {
@@ -17,6 +18,7 @@ export class App {
         @inject(TYPES.LoggerService) private readonly loggerService:ILoggerServise ,
         @inject(TYPES.UserController) private readonly userController:UserController ,
         @inject(TYPES.ExeptionFilter) private readonly exeptionFilter: IExeptionFilter,
+        @inject(TYPES.AuthMiddleware) private readonly  authMiddleware: IMiddleware,
         
 
         
