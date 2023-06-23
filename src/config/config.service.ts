@@ -10,7 +10,7 @@ export class ConfigService implements IConfigService {
 	private readonly config: DotenvParseOutput;
 
 	constructor(@inject(TYPES.LoggerService) private loggerService: ILoggerServise) {
-		const result: DotenvConfigOutput = config({ path: `.env.${process.env.NODE_ENV}` });
+		const result: DotenvConfigOutput = config();
 		if (result.error) {
 			this.loggerService.error('[ConfigService] Не удалось прочитать .env файл');
 		} else {

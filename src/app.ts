@@ -6,7 +6,10 @@ import {TYPES} from './TYPES';
 import{ILoggerServise}from './logger/logger.service.interface';
 import{UserController}from './user/UserController';
 import{IExeptionFilter}from './erors/exeption.filter.interface';
-import { IMiddleware } from './common/Middleware.interface';
+import { PrismaService } from './database/prisma.service';
+import { IAuthController } from './auth/interface/auth.controller.intreface';
+import { IUserController } from './user/interface/UserController.interface';
+import { IConfigService } from './config/config.service.interface';
 
 @injectable()
 export class App {
@@ -16,9 +19,12 @@ export class App {
     
     constructor(
         @inject(TYPES.LoggerService) private readonly loggerService:ILoggerServise ,
-        @inject(TYPES.UserController) private readonly userController:UserController ,
+        @inject(TYPES.UserController) private readonly userController:IUserController ,
         @inject(TYPES.ExeptionFilter) private readonly exeptionFilter: IExeptionFilter,
-        @inject(TYPES.AuthMiddleware) private readonly  authMiddleware: IMiddleware,
+        @inject(TYPES.PrismaService) private readonly  prismaService: PrismaService,
+        @inject(TYPES.AuthController) private readonly  authController: IAuthController,        
+        @inject(TYPES.ConfigService) private readonly  configService: IConfigService,        
+
         
 
         
@@ -26,7 +32,7 @@ export class App {
     ){
         
         this.app=express();
-        this.port=8000;
+        this.port=Number(configService.get('PORT'));
         
 
     }
@@ -34,8 +40,8 @@ export class App {
 
     }
     UseRouter():void{
-        this.app.use('/', this.userController.router)
-        // this.app.use('/auth', this.authController.router)
+        this.app.use('/users', this.userController.router)
+        this.app.use('/auth', this.authController.router)
     }
     useExeptionFilters(): void {
         this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter))
@@ -45,6 +51,7 @@ export class App {
         this.useMiddleware();
         this.UseRouter();
         this.useExeptionFilters();
+        await this.prismaService.connect();
         this.server=this.app.listen(this.port);
         this.loggerService.info(`[APP] Сервер запущен на ${this.port} порту`);
     }

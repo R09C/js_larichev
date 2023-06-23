@@ -19,8 +19,7 @@ export class AuthService implements IAuthService{
     constructor
     (@inject(TYPES.UserRepository) private userRepository:IUserRepository,
     @inject(TYPES.ConfigService) private configService:IConfigService,
-    )
-    {}
+    ){}
 
     async login({email,password}: UserRegisterDto): Promise <{ token: string; user: Omit<User, "password" | "role"> | null; } | null>{
         const userFromDB=await this.userRepository.getAllUserByEmail(email);
