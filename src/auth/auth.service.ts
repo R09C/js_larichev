@@ -42,7 +42,7 @@ export class AuthService implements IAuthService{
     async register({email,password}: UserRegisterDto): Promise<User | null>{
         const existeduser=await this.userRepository.getAllUserByEmail(email);
         if(existeduser) return null;
-        const userEntity=new UserM(Math.floor(Math.random() * (1000 - 99) + 99),email,Role.USER);
+        const userEntity=new UserM(10 ,email,Role.USER);
         const salt=userEntity.salt;
         await userEntity.setPassword(password,Number(salt));
         return this.userRepository.createUser(userEntity)

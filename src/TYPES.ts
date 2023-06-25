@@ -11,5 +11,7 @@ export const TYPES={
     ConfigService:Symbol.for('ConfigService'),    
     AuthMiddleware:Symbol.for('AuthMiddleware'),    
     AuthService:Symbol.for('AuthService'),    
+    PassageRepository:Symbol.for('PassageRepository'),    
+    PassageService:Symbol.for('PassageService'),    
 };
 

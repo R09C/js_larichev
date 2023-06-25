@@ -16,7 +16,7 @@ export class ExeptionFilter implements IExeptionFilter{
             this.loggerService.error(`[${err.context}] ${err.message}`);
             res.status(err.statusCode).send({ message: err.message });
         }else {
-			this.loggerService.error(`[Internal server error] ${err.message}`);
+			this.loggerService.error(`[Internal server error] ${err}`);
 			res.status(500).send({ message: 'Непредвиденная ошибка' });
         }
     }

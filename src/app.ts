@@ -10,6 +10,7 @@ import { PrismaService } from './database/prisma.service';
 import { IAuthController } from './auth/interface/auth.controller.intreface';
 import { IUserController } from './user/interface/UserController.interface';
 import { IConfigService } from './config/config.service.interface';
+import bodyParser from 'body-parser';
 
 @injectable()
 export class App {
@@ -37,7 +38,7 @@ export class App {
 
     }
     useMiddleware():void{
-
+        this.app.use(bodyParser.json()); 
     }
     UseRouter():void{
         this.app.use('/users', this.userController.router)
