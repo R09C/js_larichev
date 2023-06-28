@@ -9,7 +9,7 @@ import { IPassageRepository } from "./interface/passage.repository.interface";
 export class PassageService implements IPassageService{
     constructor(@inject(TYPES.PassageRepository) private passageRepository:IPassageRepository){}
 
-    async GetAllPassage():Promise<Omit<Passage,'from'|'to'|'timefrom'|'timeto'>[]>{
+    async GetAllPassage():Promise<Omit<Passage,'from'|'to'|'timefrom'|'timeto'|'planeId'>[]>{
         return this.passageRepository.GetAllPassage();
     }
 
@@ -17,18 +17,19 @@ export class PassageService implements IPassageService{
         return this.passageRepository.GetIdPassage(id);
     }
 
-    async CreatePassage({from,to,timefrom,timeto,count}:PassageM):Promise<Passage>{
+    async CreatePassage({from,to,timefrom,timeto,purchased,planeId}:PassageM):Promise<Passage>{
         const EntityPassage=new PassageM(
             from,
             to,
             timefrom,
             timeto,
-            count,
+            purchased,
+            planeId
         );
         return this.passageRepository.CreatePassage(EntityPassage);
     } 
 
-    async ChangePassage(id: number, quantity:number):Promise<Passage | null>{
+    async ChangePassage(id: number):Promise<Passage | null>{
         const passageFromDB=await this.passageRepository.GetIdPassage(id);
         if(!passageFromDB) return null;
         const userEntity= new PassageM(
@@ -36,8 +37,9 @@ export class PassageService implements IPassageService{
             passageFromDB.to,
             passageFromDB.timefrom,
             passageFromDB.timeto,
-            passageFromDB.count,            
-        ).changePassage(quantity);
+            passageFromDB.purchased,            
+            passageFromDB.planeId,            
+        ).changePassage(passageFromDB.purchased+1);
         return this.passageRepository.ChangePassage(id,userEntity)
     }
 }

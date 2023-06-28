@@ -18,7 +18,7 @@ constructor(@inject(TYPES.ConfigService) private readonly configService:IConfigS
 execute(req: Request, res: Response, next: NextFunction):void{
     const bearer=req.headers.authorization?.split(' ')[0];
     const token=req.headers.authorization?.split(' ')[1];
-    if (bearer=='Bearer'&& token){
+    if (bearer == 'Bearer' && token){
         verify(token,this.configService.get('SECRET_KEY'),(err,payload)=>{
             if(err){
                 next(new HTTPError(401,'не авторизован'));

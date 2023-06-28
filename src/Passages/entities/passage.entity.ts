@@ -4,7 +4,8 @@ export class PassageM{
         private _to:string,
         private _timefrom:Date,
         private _timeto:Date,
-        private _count:number,
+        private _purchased:number,
+        private _planeId:number|null,
     ){}
 
     get from():string{
@@ -23,12 +24,16 @@ export class PassageM{
         return this._timeto; 
     }
 
-    get count():number{
-        return this. _count; 
+    get purchased():number{
+        return this._purchased; 
     }
 
-    changePassage(count:number):PassageM{
-        this._count=count;
+    get planeId():number|null{
+        return this._planeId; 
+    }
+
+    changePassage(purchased:number):PassageM{
+        this._purchased=purchased;
         return this;
     }
 }

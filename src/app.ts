@@ -11,6 +11,8 @@ import { IAuthController } from './auth/interface/auth.controller.intreface';
 import { IUserController } from './user/interface/UserController.interface';
 import { IConfigService } from './config/config.service.interface';
 import bodyParser from 'body-parser';
+import { IPassageController } from './Passages/interface/passage.controller.interface';
+import { ITiketController } from './tiket/interface/tiket.controller.interface';
 
 @injectable()
 export class App {
@@ -24,11 +26,12 @@ export class App {
         @inject(TYPES.ExeptionFilter) private readonly exeptionFilter: IExeptionFilter,
         @inject(TYPES.PrismaService) private readonly  prismaService: PrismaService,
         @inject(TYPES.AuthController) private readonly  authController: IAuthController,        
-        @inject(TYPES.ConfigService) private readonly  configService: IConfigService,        
+        @inject(TYPES.ConfigService) private readonly  configService: IConfigService,
+        @inject(TYPES.PassageController) private readonly  passageController: IPassageController,
+        @inject(TYPES.TiketController) private readonly  tiketController: ITiketController,
 
         
 
-        
 
     ){
         
@@ -41,8 +44,10 @@ export class App {
         this.app.use(bodyParser.json()); 
     }
     UseRouter():void{
-        this.app.use('/users', this.userController.router)
-        this.app.use('/auth', this.authController.router)
+        this.app.use('/users', this.userController.router);
+        this.app.use('/auth', this.authController.router);
+        this.app.use('/passage', this.passageController.router);
+        this.app.use('/tiket', this.tiketController.router);
     }
     useExeptionFilters(): void {
         this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter))

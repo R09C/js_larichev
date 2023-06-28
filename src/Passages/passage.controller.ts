@@ -79,7 +79,7 @@ export class PassageController extends BaseController implements IPassageControl
         try{
             const passageId=Number(req.params.id);
             if (!passageId) return next(new HTTPError(422,'Некорректный запрос'));
-            const passage= await this.passageService.ChangePassage(passageId,req.body);
+            const passage= await this.passageService.ChangePassage(passageId);
             if(!passage) return next(new HTTPError(400,'рейс с таким id не найден'))
             const getPassage=await this.passageService.GetIdPassage(passage.id)
             this.ok(res,getPassage);

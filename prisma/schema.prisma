@@ -28,22 +28,43 @@ model Basket {
 }
 
 model Passage {
-  id       Int      @id @default(autoincrement())
-  from     String
-  to       String
-  timefrom DateTime
-  timeto   DateTime
-  count     Int
-  tiket    Tiket[]
+  id        Int      @id @default(autoincrement())
+  from      String
+  to        String
+  timefrom  DateTime
+  timeto    DateTime
+  purchased Int      @default(0)
+  tiket     Tiket[]
+  Plane     Plane?   @relation(fields: [planeId], references: [id])
+  planeId   Int?
 }
 
 model Tiket {
-  id        Int      @id @default(autoincrement())
-  price     Int
-  basket    Basket?  @relation(fields: [basketId], references: [id])
-  basketId  Int?
-  passage   Passage? @relation(fields: [passageId], references: [id])
-  passageId Int?
+  id               Int             @id @default(autoincrement())
+  price            Int
+  basket           Basket?         @relation(fields: [basketId], references: [id])
+  basketId         Int?
+  passage          Passage?        @relation(fields: [passageId], references: [id])
+  passageId        Int
+  Tiket_Category   Tiket_Category? @relation(fields: [tiket_CategoryId], references: [id])
+  tiket_CategoryId Int?
+}
+
+model Plane {
+  id             Int              @id @default(autoincrement())
+  name           String
+  coeff          Int
+  tiket_category Tiket_Category[]
+  passage        Passage[]
+}
+
+model Tiket_Category {
+  id          Int     @id @default(autoincrement())
+  Plane       Plane?  @relation(fields: [planeId], references: [id])
+  planeId     Int
+  coeff       Int
+  count_tiket Int
+  tiket       Tiket[]
 }
 
 enum Role {

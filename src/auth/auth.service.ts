@@ -34,7 +34,7 @@ export class AuthService implements IAuthService{
         if(!passwordSync) return null;
         const token=await this.generateToken(
             {id:userFromDB.id.toString(),salt:userFromDB.salt,email:userFromDB.email,role:userFromDB.role},
-            userFromDB.salt.toString(),
+            this.configService.get('SECRET_KEY'),
         );
         const user =await this.userRepository.getAllUserByID(userFromDB.id);
         return{token,user};
@@ -50,6 +50,7 @@ export class AuthService implements IAuthService{
     verifyToken(token: string):boolean{
         try{
             const decoded=verify(token,this.configService.get('SECRET_KEY'));
+            
             return true;
         }catch(e){
             return false;

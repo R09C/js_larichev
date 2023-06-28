@@ -13,5 +13,12 @@ export const TYPES={
     AuthService:Symbol.for('AuthService'),    
     PassageRepository:Symbol.for('PassageRepository'),    
     PassageService:Symbol.for('PassageService'),    
+    PassageController:Symbol.for('PassageController'),    
+    TiketRepository:Symbol.for('TiketRepository'),    
+    TiketService:Symbol.for('TiketService'),    
+    TiketController:Symbol.for('TiketController'),    
+    TiketCategoryRepository:Symbol.for('TiketCategoryRepository'),    
+    TiketCategoryService:Symbol.for('TiketCategoryService'),    
+    TiketCategoryController:Symbol.for('TiketCategoryController'),    
 };
 

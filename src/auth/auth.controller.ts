@@ -53,6 +53,7 @@ export class AuthController extends BaseController implements IAuthController{
     }
     async verifyToken({body}:Request<{},{},JwtVerifyDto>,res:Response,next:NextFunction):Promise<void>{
         try{
+            console.log(body.token)
             this.ok(res,this.authService.verifyToken(body.token))
         }catch(e){
             return next(e);
