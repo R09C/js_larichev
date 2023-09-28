@@ -20,5 +20,11 @@ export const TYPES={
     TiketCategoryRepository:Symbol.for('TiketCategoryRepository'),    
     TiketCategoryService:Symbol.for('TiketCategoryService'),    
     TiketCategoryController:Symbol.for('TiketCategoryController'),    
+    PlaceRepository:Symbol.for('PlaceRepository'),    
+    PlaceService:Symbol.for('PlaceService'),    
+    PlaceController:Symbol.for('PlaceController'),    
+    PlaneRepository:Symbol.for('PlaneRepository'),    
+    PlaneService:Symbol.for('PlaneService'),    
+    PlaneController:Symbol.for('PlaneController'),    
 };
 

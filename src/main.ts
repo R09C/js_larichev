@@ -7,6 +7,8 @@ import {AuthBindings} from './auth/Auth.module';
 import { UserBindings } from './user/User.module';
 import { PassageBindings } from './Passages/passage.module';
 import { TiketBindings } from './tiket/tiket.module';
+import { PlaceBindings } from './place.category/place.module';
+import { PlaneBindings } from './plane/plane.module';
 
 
 export interface IBootsrapReturn{
@@ -22,6 +24,8 @@ async function bootstrap():Promise<IBootsrapReturn> {
         UserBindings,
         PassageBindings,
         TiketBindings,
+        PlaceBindings,
+        PlaneBindings,
         );
     const app=appContainer.get<App>(TYPES.Application);
     await app.init();

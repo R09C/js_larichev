@@ -58,6 +58,7 @@ export class PassageController extends BaseController implements IPassageControl
 
     async createPassage({body}: Request, res: Response, next: NextFunction):Promise<void>{
         try{
+            if(!body) return next(new HTTPError(422,'Некорректный запрос'));
             const passage=await this.passageService.CreatePassage(body);
             this.ok(res,passage);
         }catch(e){
@@ -77,7 +78,7 @@ export class PassageController extends BaseController implements IPassageControl
     
     async changePassage(req: Request, res: Response, next: NextFunction):Promise<void>{
         try{
-            const passageId=Number(req.params.id);
+            const passageId=req.body.passageId
             if (!passageId) return next(new HTTPError(422,'Некорректный запрос'));
             const passage= await this.passageService.ChangePassage(passageId);
             if(!passage) return next(new HTTPError(400,'рейс с таким id не найден'))

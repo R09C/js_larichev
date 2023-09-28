@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { NextFunction, Request, Response} from "express";
 import { ITiketCategoryController } from './interface/tiket.category.controller.interface';
-import { inject, injectable } from 'inversify';
+import { id, inject, injectable } from 'inversify';
 import { ITiketCategoryService } from './interface/tiket.category.service.interface';
 import { TYPES } from '../TYPES';
 import { CategoryTiketM } from './entities/entity.category';
@@ -27,10 +27,10 @@ export class TiketCategoryController extends BaseController implements ITiketCat
                middlewares:[this.authMiddleware], 
             },
             {
-               path:'/:planeId', 
-               method:'get', 
-               func:this.getAllCategory,
-               middlewares:[this.authMiddleware], 
+               path:'/update', 
+               method:'put', 
+               func:this.udateCategory,
+               middlewares:[this.authMiddleware,new AuthGvards('ADMIN')], 
             },
             {
                path:'/create', 
@@ -47,6 +47,7 @@ export class TiketCategoryController extends BaseController implements ITiketCat
             const categoryId=Number(req.params.id);
             if (!categoryId) return next (new HTTPError(422,"некорректный запрос"))
             const category=await this.tiketCategoryService.getById(categoryId);
+            if (!category) return next (new HTTPError(422,"некорректный запрос"))   
             this.ok(res,category);
         }catch(e) {
             return next(e)
@@ -54,26 +55,29 @@ export class TiketCategoryController extends BaseController implements ITiketCat
 
     }
 
-    async getAllCategory(req:Request,res:Response,next:NextFunction):Promise<void>{
+    async udateCategory(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
-            const plainId=Number(req.params.planeId);
-            if (!plainId) return next (new HTTPError(422,"некорректный запрос"))
-            const massCategory=await this.tiketCategoryService.getAllCategoryInPlane(plainId);
-            this.ok(res,massCategory);
+            const id=Number(req.body.id);
+            const coeff=Number(req.body.coeff);
+            if (!id||!coeff) return next (new HTTPError(422,"некорректный запрос"))
+            const category=await this.tiketCategoryService.udateCategory(id,coeff);
+            if(!category) return next(new HTTPError(422,"некорректный запрос"))
+            this.ok(res,category);
         }catch(e){
             return next(e)
         }
     }
 
-    async createCategory(req:Request,res:Response,next:NextFunction):Promise<void>{
-        const entityCategory= new CategoryTiketM(
-            req.body.planeId,
-            req.body.coeff,
-            req.body.count_tiket,
-        )
-        if (!entityCategory) return next (new HTTPError(422,"некорректный запрос"));
-        const category=await this.tiketCategoryService.createCategory(entityCategory);
-        this.ok(res,category)
-    }
+    async createCategory({body}:Request,res:Response,next:NextFunction):Promise<void>{
+        try{
+            if (!body) return next (new HTTPError(422,"некорректный запрос"));
+            const category=await this.tiketCategoryService.createCategory(body);
+            if (!category) return next (new HTTPError(422,"некорректный запрос"));
+            this.ok(res,category);
+        }catch(e){
+            return next(e); 
+        }
+    }   
+
 
 }

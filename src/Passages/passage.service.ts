@@ -18,7 +18,7 @@ export class PassageService implements IPassageService{
     }
 
     async CreatePassage({from,to,timefrom,timeto,purchased,planeId}:PassageM):Promise<Passage>{
-        const EntityPassage=new PassageM(
+        const entityPassage=new PassageM(
             from,
             to,
             timefrom,
@@ -26,7 +26,8 @@ export class PassageService implements IPassageService{
             purchased,
             planeId
         );
-        return this.passageRepository.CreatePassage(EntityPassage);
+
+        return this.passageRepository.CreatePassage(entityPassage);
     } 
 
     async ChangePassage(id: number):Promise<Passage | null>{

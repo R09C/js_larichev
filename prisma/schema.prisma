@@ -46,28 +46,44 @@ model Tiket {
   basketId         Int?
   passage          Passage?        @relation(fields: [passageId], references: [id])
   passageId        Int
-  Tiket_Category   Tiket_Category? @relation(fields: [tiket_CategoryId], references: [id])
-  tiket_CategoryId Int?
+  Place_Category   Place_Category? @relation(fields: [place_CategoryId], references: [id])
+  place_CategoryId Int?
 }
 
 model Plane {
   id             Int              @id @default(autoincrement())
   name           String
   coeff          Int
-  tiket_category Tiket_Category[]
+  place          Int
   passage        Passage[]
+  place_category Place_Category[]
+}
+
+model Place_Category {
+  id               Int             @id @default(autoincrement())
+  Plane            Plane?          @relation(fields: [planeId], references: [id])
+  planeId          Int?
+  place            Int
+  Tiket_Category   Tiket_Category? @relation(fields: [tiket_CategoryId], references: [id])
+  tiket_CategoryId Int?
+  tiket            Tiket[]
 }
 
 model Tiket_Category {
-  id          Int     @id @default(autoincrement())
-  Plane       Plane?  @relation(fields: [planeId], references: [id])
-  planeId     Int
-  coeff       Int
-  count_tiket Int
-  tiket       Tiket[]
+  id             Int              @id @default(autoincrement())
+  name           Category         @unique
+  coeff          Int
+  place_category Place_Category[]
 }
 
 enum Role {
   ADMIN
   USER
+}
+
+enum Category {
+  EXTRA_VIP
+  VIP
+  BUSINESS
+  ECONOMY
 }

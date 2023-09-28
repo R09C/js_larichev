@@ -13,6 +13,8 @@ import { IConfigService } from './config/config.service.interface';
 import bodyParser from 'body-parser';
 import { IPassageController } from './Passages/interface/passage.controller.interface';
 import { ITiketController } from './tiket/interface/tiket.controller.interface';
+import { IPlaceController } from './place.category/interface/place.controller.interface';
+import { IPlaneController } from './plane/interface/plane.controller.interface';
 
 @injectable()
 export class App {
@@ -29,6 +31,8 @@ export class App {
         @inject(TYPES.ConfigService) private readonly  configService: IConfigService,
         @inject(TYPES.PassageController) private readonly  passageController: IPassageController,
         @inject(TYPES.TiketController) private readonly  tiketController: ITiketController,
+        @inject(TYPES.PlaceController) private readonly  placeController: IPlaceController,
+        @inject(TYPES.PlaneController) private readonly  planeController: IPlaneController,
 
         
 
@@ -48,6 +52,9 @@ export class App {
         this.app.use('/auth', this.authController.router);
         this.app.use('/passage', this.passageController.router);
         this.app.use('/tiket', this.tiketController.router);
+        this.app.use('/place', this.placeController.router);        
+        this.app.use('/plane', this.planeController.router);        
+
     }
     useExeptionFilters(): void {
         this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter))

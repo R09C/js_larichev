@@ -11,15 +11,25 @@ export class TiketCategoryService implements ITiketCategoryService{
 
     constructor(@inject(TYPES.TiketCategoryRepository)private tiketCategoryRepository:ITiketCategoryRepository){}
 
-    async getAllCategoryInPlane(planeId:number):Promise<Tiket_Category[]|null>{
-        return this.tiketCategoryRepository.getAllCategoryInPlane(planeId);
+    async  udateCategory(id:number,coeff:number):Promise<Tiket_Category|null>{
+        const categoryInDB=await this.getById(id);
+        if(!categoryInDB) return null;
+        const entity=new CategoryTiketM(
+            categoryInDB.name,
+            categoryInDB.coeff,
+        ).changeCoeff(coeff);
+        return this.tiketCategoryRepository.udateCategory(id,entity);
     }
 
     async getById(id:number):Promise<Tiket_Category|null>{
         return this.tiketCategoryRepository.getById(id);
     }
 
-    async createCategory(entity:CategoryTiketM):Promise<Tiket_Category|null>{
+    async createCategory({name,coeff}:CategoryTiketM):Promise<Tiket_Category|null>{
+        const entity=new CategoryTiketM(
+            name,
+            coeff,
+        );
         return this.tiketCategoryRepository.createCategory(entity);
     }
 
